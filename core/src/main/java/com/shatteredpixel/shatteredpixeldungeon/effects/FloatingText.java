@@ -320,12 +320,6 @@ public class FloatingText extends RenderedTextBlock {
 		if (defRoll == 0 && defender.buff(GuidingLight.Illuminated.class) != null){
 			return HIT_BLS;
 		}
-		if (accRoll == Char.INFINITE_ACCURACY && attacker.invisible > 0){
-			return HIT_SUPR;
-		}
-		if (defRoll == 0 && defender instanceof Mob && ((Mob) defender).surprisedBy(attacker)){
-			return HIT_SUPR;
-		}
 		if (accRoll == Char.INFINITE_ACCURACY
 				&& attacker.buff(Talent.PreciseAssaultTracker.class) != null){
 			return HIT_PRES;
@@ -369,6 +363,8 @@ public class FloatingText extends RenderedTextBlock {
 			blessBoost *= 1.01f + 0.02f*Dungeon.hero.pointsInTalent(Talent.BLESS);
 		}
 		if (blessBoost > 1f) hitReasons.put(HIT_BLS, blessBoost);
+		if (attacker.invisible > 0) hitReasons.put(HIT_SUPR, 2.5f);
+		if (defender instanceof Mob && ((Mob) defender).surprisedBy(attacker)) hitReasons.put(HIT_SUPR, 2.5f);
 		if (RingOfAccuracy.accuracyMultiplier(attacker) > 1)    hitReasons.put(HIT_ACC, RingOfAccuracy.accuracyMultiplier(attacker));
 		if (attacker.buff(Scimitar.SwordDance.class) != null)   hitReasons.put(HIT_DANCE, 1.5f);
 		if (!(wep instanceof MissileWeapon)) {
