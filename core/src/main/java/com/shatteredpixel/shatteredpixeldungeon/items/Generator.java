@@ -333,14 +333,13 @@ public class Generator {
 					PotionOfFrost.class,
 					PotionOfLiquidFlame.class,
 					PotionOfToxicGas.class,
-					PotionOfHaste.class,
 					PotionOfInvisibility.class,
 					PotionOfLevitation.class,
 					PotionOfParalyticGas.class,
 					PotionOfPurity.class,
 					PotionOfExperience.class};
-			POTION.defaultProbs  = new float[]{ 0, 3, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1 };
-			POTION.defaultProbs2 = new float[]{ 0, 3, 2, 2, 1, 2, 1, 1, 1, 1, 1, 0 };
+			POTION.defaultProbs  = new float[]{ 0, 3, 2, 1, 2, 1, 1, 1, 1, 1, 1 };
+			POTION.defaultProbs2 = new float[]{ 0, 3, 2, 2, 1, 2, 1, 1, 1, 1, 0 };
 			POTION.probs = POTION.defaultProbs.clone();
 			
 			SEED.classes = new Class<?>[]{
@@ -350,13 +349,12 @@ public class Generator {
 					Icecap.Seed.class,
 					Firebloom.Seed.class,
 					Sorrowmoss.Seed.class,
-					Swiftthistle.Seed.class,
 					Blindweed.Seed.class,
 					Stormvine.Seed.class,
 					Earthroot.Seed.class,
 					Mageroyal.Seed.class,
 					Starflower.Seed.class};
-			SEED.defaultProbs = new float[]{ 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1 };
+			SEED.defaultProbs = new float[]{ 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1 };
 			SEED.probs = SEED.defaultProbs.clone();
 			
 			SCROLL.classes = new Class<?>[]{

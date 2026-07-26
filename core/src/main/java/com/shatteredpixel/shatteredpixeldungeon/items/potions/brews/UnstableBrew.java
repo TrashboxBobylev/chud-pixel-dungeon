@@ -71,7 +71,6 @@ public class UnstableBrew extends Brew {
 		potionChances.put(PotionOfFrost.class, 2f);
 		potionChances.put(PotionOfLiquidFlame.class, 2f);
 		potionChances.put(PotionOfToxicGas.class, 2f);
-		potionChances.put(PotionOfHaste.class, 2f);
 		potionChances.put(PotionOfInvisibility.class, 2f);
 		potionChances.put(PotionOfLevitation.class, 2f);
 		potionChances.put(PotionOfParalyticGas.class, 2f);

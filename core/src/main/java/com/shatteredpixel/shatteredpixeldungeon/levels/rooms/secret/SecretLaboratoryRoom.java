@@ -56,7 +56,6 @@ public class SecretLaboratoryRoom extends SecretRoom {
 		potionChances.put(PotionOfFrost.class,          3f);
 		potionChances.put(PotionOfLiquidFlame.class,    3f);
 		potionChances.put(PotionOfToxicGas.class,       3f);
-		potionChances.put(PotionOfHaste.class,          4f);
 		potionChances.put(PotionOfInvisibility.class,   4f);
 		potionChances.put(PotionOfLevitation.class,     4f);
 		potionChances.put(PotionOfParalyticGas.class,   4f);

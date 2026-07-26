@@ -68,9 +68,6 @@ public class ExoticPotion extends Potion {
 		regToExo.put(PotionOfToxicGas.class, PotionOfCorrosiveGas.class);
 		exoToReg.put(PotionOfCorrosiveGas.class, PotionOfToxicGas.class);
 
-		regToExo.put(PotionOfHaste.class, PotionOfStamina.class);
-		exoToReg.put(PotionOfStamina.class, PotionOfHaste.class);
-
 		regToExo.put(PotionOfInvisibility.class, PotionOfShroudingFog.class);
 		exoToReg.put(PotionOfShroudingFog.class, PotionOfInvisibility.class);
 		

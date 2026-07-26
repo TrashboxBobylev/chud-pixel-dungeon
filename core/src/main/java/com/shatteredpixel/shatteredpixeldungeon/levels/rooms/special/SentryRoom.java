@@ -36,6 +36,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHaste;
+import com.shatteredpixel.shatteredpixeldungeon.items.stones.StoneOfBlink;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Bestiary;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
@@ -160,13 +161,13 @@ public class SentryRoom extends SpecialRoom {
 		sentry.pos = level.pointToCell(sentryPos);
 		sentry.room = new EmptyRoom();
 		sentry.room.set((Rect)this);
-		sentry.initialChargeDelay = sentry.curChargeDelay = dangerDist / 3f + 0.1f;
+		sentry.initialChargeDelay = sentry.curChargeDelay = dangerDist / 1.5f + 0.1f;
 		level.mobs.add( sentry );
 
 		Painter.set(level, treasurePos, Terrain.PEDESTAL);
 		level.drop( prize( level ), level.pointToCell(treasurePos) ).type = Heap.Type.CHEST;
 
-		level.addItemToSpawn(new PotionOfHaste());
+		level.addItemToSpawn(new StoneOfBlink());
 
 		entrance.set( Door.Type.REGULAR );
 	}
