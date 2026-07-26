@@ -44,6 +44,7 @@ public class Monk extends Mob {
 		
 		HP = HT = 85;
 		defenseSkill = 30;
+		baseSpeed = 0.5f;
 		
 		EXP = 11;
 		maxLvl = 21;
@@ -80,7 +81,16 @@ public class Monk extends Mob {
 		
 		super.rollToDropLoot();
 	}
-	
+
+	@Override
+	public float speed() {
+		// effectively 3x speed
+		if (buff(Focus.class) != null){
+			return super.speed()*6f;
+		}
+		return super.speed();
+	}
+
 	protected float focusCooldown = 0;
 	
 	@Override
@@ -124,7 +134,7 @@ public class Monk extends Mob {
 			if (sprite != null && sprite.visible) {
 				Sample.INSTANCE.play(Assets.Sounds.HIT_PARRY, 1, Random.Float(0.96f, 1.05f));
 			}
-			focusCooldown = Random.NormalFloat( 6, 7 );
+			focusCooldown = Random.NormalFloat( 5, 6 );
 			return Messages.get(this, "parried");
 		}
 	}
