@@ -72,7 +72,7 @@ public class YogDzewa extends Mob {
 	{
 		spriteClass = YogSprite.class;
 
-		HP = HT = 1000;
+		HP = HT = 2000;
 
 		EXP = 50;
 
@@ -90,12 +90,12 @@ public class YogDzewa extends Mob {
 	private int phase = 0;
 
 	private float abilityCooldown;
-	private static final int MIN_ABILITY_CD = 10;
-	private static final int MAX_ABILITY_CD = 15;
+	private static final int MIN_ABILITY_CD = 6;
+	private static final int MAX_ABILITY_CD = 12;
 
 	private float summonCooldown;
-	private static final int MIN_SUMMON_CD = 10;
-	private static final int MAX_SUMMON_CD = 15;
+	private static final int MIN_SUMMON_CD = 6;
+	private static final int MAX_SUMMON_CD = 10;
 
 	private static Class getPairedFist(Class fist){
 		if (fist == YogFist.BurningFist.class) return YogFist.SoiledFist.class;
@@ -226,7 +226,7 @@ public class YogDzewa extends Mob {
 
 					if (hit( this, ch, true )) {
 						if (Dungeon.isChallenged(Challenges.STRONGER_BOSSES)) {
-							ch.damage(Random.NormalIntRange(30, 50), new Eye.DeathGaze());
+							ch.damage(Random.NormalIntRange(60, 100), new Eye.DeathGaze());
 						} else {
 							ch.damage(Random.NormalIntRange(20, 30), new Eye.DeathGaze());
 						}
@@ -248,7 +248,7 @@ public class YogDzewa extends Mob {
 
 			if (abilityCooldown <= 0){
 
-				int beams = 1 + (HT - HP)/400;
+				int beams = 1 + (HT - HP)/1200;
 				HashSet<Integer> affectedCells = new HashSet<>();
 				for (int i = 0; i < beams; i++){
 
@@ -397,9 +397,9 @@ public class YogDzewa extends Mob {
 		if (phase == 0 || findFist() != null) return;
 
 		if (phase < 4) {
-			HP = Math.max(HP, HT - 300 * phase);
+			HP = Math.max(HP, HT - 600 * phase);
 		} else if (phase == 4) {
-			HP = Math.max(HP, 100);
+			HP = Math.max(HP, 200);
 		}
 		int dmgTaken = preHP - HP;
 
@@ -408,7 +408,7 @@ public class YogDzewa extends Mob {
 			summonCooldown -= dmgTaken / 10f;
 		}
 
-		if (phase < 4 && HP <= HT - 300*phase){
+		if (phase < 4 && HP <= HT - 600*phase){
 
 			phase++;
 

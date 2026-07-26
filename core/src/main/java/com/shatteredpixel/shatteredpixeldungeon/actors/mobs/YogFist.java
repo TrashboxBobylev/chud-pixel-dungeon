@@ -68,7 +68,7 @@ import com.watabou.utils.Random;
 public abstract class YogFist extends Mob {
 
 	{
-		HP = HT = 300;
+		HP = HT = 600;
 		defenseSkill = 20;
 
 		viewDistance = Light.DISTANCE;
@@ -185,7 +185,7 @@ public abstract class YogFist extends Mob {
 
 	@Override
 	public int damageRoll() {
-		return Random.NormalIntRange( 18, 36 );
+		return Random.NormalIntRange( 24, 42 );
 	}
 
 	@Override
@@ -462,7 +462,7 @@ public abstract class YogFist extends Mob {
 
 		@Override
 		public int damageRoll() {
-			return Random.NormalIntRange( 22, 44 );
+			return Random.NormalIntRange( 26, 50 );
 		}
 
 		@Override
@@ -512,7 +512,7 @@ public abstract class YogFist extends Mob {
 			Char enemy = this.enemy;
 			if (hit( this, enemy, true )) {
 
-				enemy.damage( Random.NormalIntRange(10, 20), new LightBeam() );
+				enemy.damage( Random.NormalIntRange(20, 30), new LightBeam() );
 				Buff.prolong( enemy, Blindness.class, Blindness.DURATION/2f );
 
 				if (!enemy.isAlive() && enemy == Dungeon.hero) {
@@ -578,7 +578,7 @@ public abstract class YogFist extends Mob {
 			Char enemy = this.enemy;
 			if (hit( this, enemy, true )) {
 
-				enemy.damage( Random.NormalIntRange(10, 20), new DarkBolt() );
+				enemy.damage( Random.NormalIntRange(20, 30), new DarkBolt() );
 
 				Light l = enemy.buff(Light.class);
 				if (l != null){
