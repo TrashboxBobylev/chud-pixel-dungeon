@@ -51,11 +51,11 @@ public class WandOfFrost extends DamageWand {
 	}
 
 	public int min(int lvl){
-		return 2+lvl;
+		return 4+lvl*2;
 	}
 
 	public int max(int lvl){
-		return 8+5*lvl;
+		return 16+10*lvl;
 	}
 
 	@Override
@@ -103,9 +103,9 @@ public class WandOfFrost extends DamageWand {
 
 			if (ch.isAlive()){
 				if (Dungeon.level.water[ch.pos])
-					Buff.affect(ch, Chill.class, 4+buffedLvl());
+					Buff.affect(ch, Chill.class, 8+buffedLvl()*2);
 				else
-					Buff.affect(ch, Chill.class, 2+buffedLvl());
+					Buff.affect(ch, Chill.class, 4+buffedLvl()*2);
 			}
 		} else {
 			Dungeon.level.pressCell(bolt.collisionPos);
@@ -114,7 +114,7 @@ public class WandOfFrost extends DamageWand {
 
 	@Override
 	public String upgradeStat2(int level) {
-		return Integer.toString(2 + level);
+		return Integer.toString(4 + level*2);
 	}
 
 	@Override
