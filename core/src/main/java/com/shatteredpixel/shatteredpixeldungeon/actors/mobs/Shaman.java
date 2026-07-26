@@ -47,8 +47,8 @@ import com.watabou.utils.Random;
 public abstract class Shaman extends Mob {
 	
 	{
-		HP = HT = 35;
-		defenseSkill = 15;
+		HP = HT = 40;
+		defenseSkill = 18;
 		
 		EXP = 8;
 		maxLvl = 16;
@@ -64,7 +64,7 @@ public abstract class Shaman extends Mob {
 	
 	@Override
 	public int attackSkill( Char target ) {
-		return 18;
+		return 20;
 	}
 	
 	@Override
@@ -114,7 +114,7 @@ public abstract class Shaman extends Mob {
 	public static class EarthenBolt{}
 	
 	private void zap() {
-		spend( 1f );
+		spend( 0.5f );
 
 		Invisibility.dispel(this);
 		Char enemy = this.enemy;
@@ -125,7 +125,7 @@ public abstract class Shaman extends Mob {
 				if (enemy == Dungeon.hero) Sample.INSTANCE.play( Assets.Sounds.DEBUFF );
 			}
 			
-			int dmg = Random.NormalIntRange( 6, 15 );
+			int dmg = Random.NormalIntRange( 4, 12 );
 			dmg = Math.round(dmg * AscensionChallenge.statModifier(this));
 			enemy.damage( dmg, new EarthenBolt() );
 			
@@ -158,7 +158,7 @@ public abstract class Shaman extends Mob {
 		
 		@Override
 		protected void debuff( Char enemy ) {
-			Buff.prolong( enemy, Weakness.class, Weakness.DURATION );
+			Buff.affect( enemy, Weakness.class, Weakness.DURATION*2/3 );
 		}
 	}
 	
@@ -169,7 +169,7 @@ public abstract class Shaman extends Mob {
 		
 		@Override
 		protected void debuff( Char enemy ) {
-			Buff.prolong( enemy, Vulnerable.class, Vulnerable.DURATION );
+			Buff.affect( enemy, Vulnerable.class, Vulnerable.DURATION*2/3 );
 		}
 	}
 	
@@ -180,7 +180,7 @@ public abstract class Shaman extends Mob {
 		
 		@Override
 		protected void debuff( Char enemy ) {
-			Buff.prolong( enemy, Hex.class, Hex.DURATION );
+			Buff.affect( enemy, Hex.class, Hex.DURATION*2/3 );
 		}
 	}
 	
