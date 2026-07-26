@@ -34,6 +34,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.watabou.noosa.Image;
@@ -48,11 +49,11 @@ public class WandOfMagicMissile extends DamageWand {
 	}
 
 	public int min(int lvl){
-		return 2+lvl;
+		return 5+lvl*3;
 	}
 
 	public int max(int lvl){
-		return 8+2*lvl;
+		return 15+5*lvl;
 	}
 	
 	@Override
@@ -61,9 +62,14 @@ public class WandOfMagicMissile extends DamageWand {
 		Char ch = Actor.findChar( bolt.collisionPos );
 		if (ch != null) {
 
-			wandProc(ch, chargesPerCast());
-			ch.damage(damageRoll(), this);
-			Sample.INSTANCE.play( Assets.Sounds.HIT_MAGIC, 1, Random.Float(0.87f, 1.15f) );
+			boolean hit = Char.hit( curUser, ch, 1.7f - 0.2f*Dungeon.level.distance(curUser.pos, ch.pos), true );
+			if (hit) {
+				wandProc(ch, chargesPerCast());
+				ch.damage(damageRoll(), this);
+				Sample.INSTANCE.play(Assets.Sounds.HIT_MAGIC, 1, Random.Float(0.87f, 1.15f));
+			} else {
+				ch.sprite.showStatus( CharSprite.NEUTRAL,  ch.defenseVerb() );
+			}
 
 			ch.sprite.burst(0xFFFFFFFF, buffedLvl() / 2 + 2);
 
@@ -121,7 +127,7 @@ public class WandOfMagicMissile extends DamageWand {
 		}
 
 		public int level(){
-			return this.level;
+			return this.level*2;
 		}
 
 		//this is used briefly so that a wand of magic missile can't clear the buff it just applied
