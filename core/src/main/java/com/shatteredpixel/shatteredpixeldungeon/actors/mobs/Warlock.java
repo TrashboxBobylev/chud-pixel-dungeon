@@ -52,7 +52,7 @@ public class Warlock extends Mob implements Callback {
 	{
 		spriteClass = WarlockSprite.class;
 		
-		HP = HT = 70;
+		HP = HT = 85;
 		defenseSkill = 18;
 		
 		EXP = 11;
@@ -66,7 +66,7 @@ public class Warlock extends Mob implements Callback {
 	
 	@Override
 	public int damageRoll() {
-		return Random.NormalIntRange( 12, 18 );
+		return Random.NormalIntRange( 16, 22 );
 	}
 	
 	@Override
