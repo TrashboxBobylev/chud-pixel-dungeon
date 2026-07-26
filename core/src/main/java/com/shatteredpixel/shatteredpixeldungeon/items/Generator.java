@@ -550,12 +550,10 @@ public class Generator {
 					RingOfEvasion.class,
 					RingOfForce.class,
 					RingOfFuror.class,
-					RingOfHaste.class,
 					RingOfMight.class,
 					RingOfSharpshooting.class,
-					RingOfTenacity.class,
-					RingOfWealth.class};
-			RING.defaultProbs = new float[]{ 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 };
+					RingOfTenacity.class};
+			RING.defaultProbs = new float[]{ 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 };
 			RING.probs = RING.defaultProbs.clone();
 			
 			ARTIFACT.classes = new Class<?>[]{
