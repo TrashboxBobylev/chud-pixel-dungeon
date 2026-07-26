@@ -30,6 +30,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Web;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Beam;
@@ -56,11 +58,11 @@ public class WandOfDisintegration extends DamageWand {
 
 
 	public int min(int lvl){
-		return 2+lvl;
+		return 4+lvl*2;
 	}
 
 	public int max(int lvl){
-		return 8+4*lvl;
+		return 12+6*lvl;
 	}
 	
 	@Override
@@ -127,6 +129,7 @@ public class WandOfDisintegration extends DamageWand {
 		for (Char ch : chars) {
 			wandProc(ch, chargesPerCast());
 			ch.damage( damageRoll(lvl), this );
+			Buff.affect(ch, Vulnerable.class, 3 + lvl*2);
 			ch.sprite.centerEmitter().burst( PurpleParticle.BURST, Random.IntRange( 1, 2 ) );
 			ch.sprite.flash();
 		}
@@ -138,12 +141,17 @@ public class WandOfDisintegration extends DamageWand {
 	}
 
 	private int distance() {
-		return buffedLvl()*2 + 6;
+		return buffedLvl()*3 + 6;
 	}
 
 	@Override
 	public String upgradeStat2(int level) {
-		return Integer.toString(6 + level*2);
+		return Integer.toString(6 + level*3);
+	}
+
+	@Override
+	public String upgradeStat3(int level) {
+		return Integer.toString(3 + level*2);
 	}
 
 	@Override
