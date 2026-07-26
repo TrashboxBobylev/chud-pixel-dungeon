@@ -806,7 +806,7 @@ public abstract class Wand extends Item {
 		private static final float SCALING_CHARGE_ADDITION = 30f;
 		private static final float NORMAL_SCALE_FACTOR = 0.75f;
 
-		private static final float CHARGE_BUFF_BONUS = 0.4f;
+		private static final float CHARGE_BUFF_BONUS = 0.15f;
 
 		float scalingFactor = NORMAL_SCALE_FACTOR;
 
