@@ -70,8 +70,8 @@ import java.util.ArrayList;
 public abstract class Elemental extends Mob {
 
 	{
-		HP = HT = 60;
-		defenseSkill = 20;
+		HP = HT = 120;
+		defenseSkill = 15;
 		
 		EXP = 10;
 		maxLvl = 20;
@@ -84,7 +84,7 @@ public abstract class Elemental extends Mob {
 	@Override
 	public int damageRoll() {
 		if (!summonedALly) {
-			return Random.NormalIntRange(20, 25);
+			return Random.NormalIntRange(12, 16);
 		} else {
 			int regionScale = Math.max(2, (1 + Dungeon.scalingDepth()/5));
 			return Random.NormalIntRange(5*regionScale, 5 + 5*regionScale);
@@ -94,7 +94,7 @@ public abstract class Elemental extends Mob {
 	@Override
 	public int attackSkill( Char target ) {
 		if (!summonedALly) {
-			return 25;
+			return 22;
 		} else {
 			int regionScale = Math.max(2, (1 + Dungeon.scalingDepth()/5));
 			return 5 + 5*regionScale;
@@ -111,10 +111,10 @@ public abstract class Elemental extends Mob {
 	
 	@Override
 	public int drRoll() {
-		return super.drRoll() + Random.NormalIntRange(0, 5);
+		return super.drRoll() + Random.NormalIntRange(0, 7);
 	}
 	
-	protected int rangedCooldown = Random.NormalIntRange( 3, 5 );
+	protected int rangedCooldown = Random.NormalIntRange( 2, 6 );
 	
 	@Override
 	protected boolean act() {
@@ -181,7 +181,7 @@ public abstract class Elemental extends Mob {
 			enemy.sprite.showStatus( CharSprite.NEUTRAL,  enemy.defenseVerb() );
 		}
 
-		rangedCooldown = Random.NormalIntRange( 3, 5 );
+		rangedCooldown = Random.NormalIntRange( 2, 5 );
 	}
 	
 	public void onZapComplete() {
@@ -265,6 +265,8 @@ public abstract class Elemental extends Mob {
 			spriteClass = ElementalSprite.NewbornFire.class;
 
 			defenseSkill = 12;
+
+			HP = 90;
 			
 			properties.add(Property.MINIBOSS);
 		}
@@ -381,7 +383,7 @@ public abstract class Elemental extends Mob {
 			}
 
 			targetingPos = -1;
-			rangedCooldown = Random.NormalIntRange( 3, 5 );
+			rangedCooldown = Random.NormalIntRange( 2, 5 );
 		}
 
 		@Override
@@ -396,7 +398,7 @@ public abstract class Elemental extends Mob {
 		@Override
 		public int damageRoll() {
 			if (!summonedALly) {
-				return Random.NormalIntRange(10, 12);
+				return Random.NormalIntRange(7, 10);
 			} else {
 				return super.damageRoll();
 			}
@@ -580,7 +582,7 @@ public abstract class Elemental extends Mob {
 			//skips accuracy check, always hits
 			rangedProc( enemy );
 
-			rangedCooldown = Random.NormalIntRange( 3, 5 );
+			rangedCooldown = Random.NormalIntRange( 2, 5 );
 		}
 
 		@Override
