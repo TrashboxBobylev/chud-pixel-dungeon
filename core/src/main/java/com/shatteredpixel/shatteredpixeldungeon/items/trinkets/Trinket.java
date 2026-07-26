@@ -43,7 +43,16 @@ public abstract class Trinket extends Item {
 
 	@Override
 	public boolean isUpgradable() {
-		return false;
+		return level() < 3;
+	}
+
+	@Override
+	public Item upgrade() {
+		this.level(Math.min(3,this.level()+2));
+
+		updateQuickslot();
+
+		return this;
 	}
 
 	protected abstract int upgradeEnergyCost();
@@ -125,7 +134,7 @@ public abstract class Trinket extends Item {
 		public Item brew(ArrayList<Item> ingredients) {
 			Item result = ingredients.get(0).duplicate();
 			ingredients.get(0).quantity(0);
-			result.upgrade();
+			result.level(result.level()+1);
 
 			Catalog.countUse(result.getClass());
 
