@@ -120,6 +120,13 @@ public class Spinner extends Mob {
 	}
 
 	@Override
+	public float speed() {
+		if (state == FLEEING)
+			return super.speed()*2f;
+		return super.speed();
+	}
+
+	@Override
 	public int attackProc(Char enemy, int damage) {
 		damage = super.attackProc( enemy, damage );
 		if (Random.Int(2) == 0) {
