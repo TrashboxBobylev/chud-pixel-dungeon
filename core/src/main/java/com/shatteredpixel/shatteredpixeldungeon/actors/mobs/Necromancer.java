@@ -34,6 +34,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Beam;
 import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Pushing;
+import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
@@ -61,8 +62,8 @@ public class Necromancer extends Mob {
 		EXP = 7;
 		maxLvl = 14;
 		
-		loot = PotionOfHealing.class;
-		lootChance = 0.2f; //see lootChance()
+		loot = Generator.Category.POTION;
+		lootChance = 0.5f;
 		
 		properties.add(Property.UNDEAD);
 		
@@ -100,16 +101,22 @@ public class Necromancer extends Mob {
 	public int drRoll() {
 		return super.drRoll() + Random.NormalIntRange(0, 5);
 	}
-	
-	@Override
-	public float lootChance() {
-		return super.lootChance() * ((6f - Dungeon.LimitedDrops.NECRO_HP.count) / 6f);
-	}
-	
+
 	@Override
 	public Item createLoot(){
-		Dungeon.LimitedDrops.NECRO_HP.count++;
-		return super.createLoot();
+
+		// 1/6 chance for healing, scaling to 0 over 8 drops
+		if (Random.Int(3) == 0 && Random.Int(8) > Dungeon.LimitedDrops.NECRO_HP.count ){
+			Dungeon.LimitedDrops.NECRO_HP.count++;
+			return new PotionOfHealing();
+		} else {
+			Item i;
+			do {
+				i = Generator.randomUsingDefaults(Generator.Category.POTION);
+			} while (i instanceof PotionOfHealing);
+			return i;
+		}
+
 	}
 	
 	@Override
