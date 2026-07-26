@@ -676,14 +676,7 @@ public class DM300 extends Mob {
 	{
 		immunities.add(Sleep.class);
 
-		resistances.add(Terror.class);
-		resistances.add(Charm.class);
-		resistances.add(Vertigo.class);
-		resistances.add(Cripple.class);
-		resistances.add(Chill.class);
-		resistances.add(Frost.class);
-		resistances.add(Roots.class);
-		resistances.add(Slow.class);
+		resistances.add(Buff.class);
 	}
 
 	public static class FallingRockBuff extends DelayedRockFall {
