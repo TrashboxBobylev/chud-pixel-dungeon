@@ -51,8 +51,8 @@ public class Guard extends Mob {
 	{
 		spriteClass = GuardSprite.class;
 
-		HP = HT = 40;
-		defenseSkill = 10;
+		HP = HT = 30;
+		defenseSkill = 8;
 
 		EXP = 7;
 		maxLvl = 14;
@@ -144,7 +144,7 @@ public class Guard extends Mob {
 
 	@Override
 	public int drRoll() {
-		return super.drRoll() + Random.NormalIntRange(0, 7);
+		return super.drRoll() + Random.NormalIntRange(2, 7);
 	}
 
 	@Override
