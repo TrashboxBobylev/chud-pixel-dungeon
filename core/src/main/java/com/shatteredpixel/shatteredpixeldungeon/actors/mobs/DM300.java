@@ -32,9 +32,14 @@ import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Electricity;
+import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Inferno;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ToxicGas;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Adrenaline;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Barrier;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ChampionEnemy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Charm;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Chill;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
@@ -48,6 +53,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.WallOfLight;
 import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
+import com.shatteredpixel.shatteredpixeldungeon.effects.Pushing;
 import com.shatteredpixel.shatteredpixeldungeon.effects.TargetedCell;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.SparkParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
@@ -84,7 +90,7 @@ public class DM300 extends Mob {
 	{
 		spriteClass = DM300Sprite.class;
 
-		HP = HT = Dungeon.isChallenged(Challenges.STRONGER_BOSSES) ? 400 : 300;
+		HP = HT = Dungeon.isChallenged(Challenges.STRONGER_BOSSES) ? 600 : 300;
 		EXP = 30;
 		defenseSkill = 15;
 
@@ -95,7 +101,7 @@ public class DM300 extends Mob {
 
 	@Override
 	public int damageRoll() {
-		return Random.NormalIntRange( 15, 25 );
+		return Random.NormalIntRange( 20, 30 );
 	}
 
 	@Override
@@ -112,7 +118,7 @@ public class DM300 extends Mob {
 	public boolean supercharged = false;
 	public boolean chargeAnnounced = false;
 
-	private final int MIN_COOLDOWN = 5;
+	private final int MIN_COOLDOWN = 4;
 	private final int MAX_COOLDOWN = Dungeon.isChallenged(Challenges.STRONGER_BOSSES) ? 7 : 9;
 
 	private int turnsSinceLastAbility = -1;
@@ -343,7 +349,10 @@ public class DM300 extends Mob {
 				sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(30 + (HT - HP)/10), FloatingText.SHIELDING);
 			}
 
-			Buff.affect(this, Barrier.class).setShield( 30 + (HT - HP)/10);
+			for (int i : PathFinder.NEIGHBOURS8){
+				GameScene.add(Blob.seed(pos+i, 30, Inferno.class));
+			}
+			Buff.affect(this, Adrenaline.class, 10f);
 
 		}
 	}
@@ -386,15 +395,15 @@ public class DM300 extends Mob {
 			@Override
 			protected boolean act() {
 				int gasVented = 0;
-				GameScene.add(Blob.seed(trajectory.collisionPos, 100*gasMulti, ToxicGas.class));
+				GameScene.add(Blob.seed(trajectory.collisionPos, 100*gasMulti, Inferno.class));
 				for (int i : trajectory.subPath(0, trajectory.dist)){
-					GameScene.add(Blob.seed(i, 20*gasMulti, ToxicGas.class));
+					GameScene.add(Blob.seed(i, 20*gasMulti, Inferno.class));
 					gasVented += 20*gasMulti;
 				}
 				if (gasVented < 250*gasMulti){
 					int toVentAround = (int)Math.ceil(((250*gasMulti) - gasVented)/8f);
 					for (int i : PathFinder.NEIGHBOURS8){
-						GameScene.add(Blob.seed(pos+i, toVentAround, ToxicGas.class));
+						GameScene.add(Blob.seed(pos+i, toVentAround, Inferno.class));
 					}
 				}
 				Actor.remove(this);
@@ -552,6 +561,30 @@ public class DM300 extends Mob {
 		} else {
 			yell(Messages.get(this, "pylons_destroyed"));
 			BossHealthBar.bleed(true);
+			for (int i = 0; i < 2; i++) {
+				ArrayList<Integer> points = Level.getSpawningPoints(pos);
+				if (!points.isEmpty()) {
+					DM200 clone = new DM200();
+					clone.HP = clone.HT = HP / 2;
+					clone.pos = Random.element(points);
+					clone.state = clone.HUNTING;
+					Class<?extends ChampionEnemy> buffCls;
+					switch (Random.Int(6)){
+						case 0: default:    buffCls = ChampionEnemy.Blazing.class;      break;
+						case 1:             buffCls = ChampionEnemy.Projecting.class;   break;
+						case 2:             buffCls = ChampionEnemy.AntiMagic.class;    break;
+						case 3:             buffCls = ChampionEnemy.Giant.class;        break;
+						case 4:             buffCls = ChampionEnemy.Blessed.class;      break;
+						case 5:             buffCls = ChampionEnemy.Growing.class;      break;
+					}
+					Buff.affect(clone, buffCls);
+
+					Dungeon.level.occupyCell(clone);
+
+					GameScene.add(clone, 0f);
+					Actor.addDelayed(new Pushing(clone, pos, clone.pos), -1);
+				}
+			}
 			Game.runOnRenderThread(new Callback() {
 				@Override
 				public void call() {
@@ -675,6 +708,7 @@ public class DM300 extends Mob {
 
 	{
 		immunities.add(Sleep.class);
+		immunities.add(Burning.class);
 
 		resistances.add(Buff.class);
 	}

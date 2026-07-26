@@ -948,6 +948,19 @@ public abstract class Level implements Bundlable {
 		level.updateCellFlags(cell);
 	}
 
+	public static ArrayList<Integer> getSpawningPoints(int pos) {
+		ArrayList<Integer> respawnPoints = new ArrayList<Integer>();
+
+		for (int i = 0; i < PathFinder.NEIGHBOURS8.length; i++) {
+			int p = pos + PathFinder.NEIGHBOURS8[i];
+			if (Actor.findChar(p) == null && Dungeon.level.passable[p] && Dungeon.hero.pos != p && Dungeon.level.getTransition(p) == null) {
+				respawnPoints.add(p);
+			}
+		}
+
+		return respawnPoints;
+	}
+
 	public void updateCellFlags( int cell ){
 		int terrain = map[cell];
 
