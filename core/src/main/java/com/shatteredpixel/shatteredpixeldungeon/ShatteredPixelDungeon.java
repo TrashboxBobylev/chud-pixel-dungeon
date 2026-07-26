@@ -5,6 +5,9 @@
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2026 Evan Debenham
  *
+ * Chud Pixel Dungeon
+ * Copyright (C) 2026 Trashbox Bobylev
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -48,9 +51,6 @@ public class ShatteredPixelDungeon extends Game {
 		super( sceneClass == null ? WelcomeScene.class : sceneClass, platform );
 
 		//pre-v3.3.0
-		com.watabou.utils.Bundle.addAlias(
-				com.shatteredpixel.shatteredpixeldungeon.items.keys.WornKey.class,
-				"com.shatteredpixel.shatteredpixeldungeon.items.keys.SkeletonKey" );
 
 	}
 	
