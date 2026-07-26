@@ -63,11 +63,11 @@ public class WandOfLightning extends DamageWand {
 	private ArrayList<Lightning.Arc> arcs = new ArrayList<>();
 
 	public int min(int lvl){
-		return 5+lvl;
+		return 10+lvl*2;
 	}
 
 	public int max(int lvl){
-		return 10+5*lvl;
+		return 15+8*lvl;
 	}
 	
 	@Override
@@ -82,7 +82,7 @@ public class WandOfLightning extends DamageWand {
 		}
 
 		//lightning deals less damage per-target, the more targets that are hit.
-		float multiplier = 0.4f + (0.6f/affected.size());
+		float multiplier = 0.6f + (0.4f/affected.size());
 		//if the main target is in water, all affected take full damage
 		if (Dungeon.level.water[bolt.collisionPos]) multiplier = 1f;
 
@@ -145,7 +145,7 @@ public class WandOfLightning extends DamageWand {
 
 	private void arc( Char ch ) {
 
-		int dist = Dungeon.level.water[ch.pos] ? 2 : 1;
+		int dist = Dungeon.level.water[ch.pos] ? 3 : 2;
 
 		if (curUser.buff(LightningCharge.class) != null){
 			dist++;
