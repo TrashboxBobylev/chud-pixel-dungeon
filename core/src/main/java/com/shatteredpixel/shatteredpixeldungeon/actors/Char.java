@@ -648,11 +648,6 @@ public abstract class Char extends Actor {
 
 		float acuRoll = Random.Float( acuStat );
 
-		//invisible chars have 2.5x accuracy (for the hero this is surprise attacking)
-		if (attacker.invisible > 0 && attacker.canSurpriseAttack()){
-			acuRoll *= 2.5f;
-		}
-
 		if (attacker.buff(Bless.class) != null) acuRoll *= 1.25f;
 		if (attacker.buff(  Hex.class) != null) acuRoll *= 0.8f;
 		if (attacker.buff( Daze.class) != null) acuRoll *= 0.5f;
