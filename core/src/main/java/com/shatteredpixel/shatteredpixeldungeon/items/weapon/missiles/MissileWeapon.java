@@ -229,7 +229,7 @@ abstract public class MissileWeapon extends Weapon {
 				return 0.5f;
 			}
 		} else {
-			return 1.5f;
+			return 1.7f - 0.2f*Dungeon.level.distance(owner.pos, target.pos);
 		}
 	}
 
