@@ -35,6 +35,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfEnergy;
@@ -237,7 +238,7 @@ public class CloakOfShadows extends Artifact {
 				if (activeBuff == null && Regeneration.regenOn()) {
 					float missing = (chargeCap - charge);
 					if (level() > 7) missing += 5*(level() - 7)/3f;
-					float turnsToCharge = (45 - missing);
+					float turnsToCharge = (35 - missing);
 					turnsToCharge /= RingOfEnergy.artifactChargeMultiplier(target);
 					float chargeToGain = (1f / turnsToCharge);
 					if (!isEquipped(Dungeon.hero)){
@@ -305,6 +306,13 @@ public class CloakOfShadows extends Artifact {
 
 		@Override
 		public boolean attachTo( Char target ) {
+			if (Dungeon.level != null) {
+				for (Mob m : Dungeon.level.mobs) {
+					if (Dungeon.level.adjacent(m.pos, target.pos) && m.alignment != target.alignment) {
+						return false;
+					}
+				}
+			}
 			if (super.attachTo( target )) {
 				target.invisible++;
 				if (target instanceof Hero && ((Hero) target).subClass == HeroSubClass.ASSASSIN){
@@ -322,13 +330,26 @@ public class CloakOfShadows extends Artifact {
 		@Override
 		public boolean act(){
 			turnsToCost--;
+
+			boolean exposed = false;
+
+			for (Mob m : Dungeon.level.mobs){
+				if (Dungeon.level.adjacent(m.pos, target.pos) && m.alignment != target.alignment){
+					exposed = true;
+					break;
+				}
+			}
 			
-			if (turnsToCost <= 0){
+			if (turnsToCost <= 0 || exposed){
 				charge--;
-				if (charge < 0) {
-					charge = 0;
+				if (charge < 0 || exposed) {
+					if (charge < 0) {
+						charge = 0;
+						GLog.w(Messages.get(this, "no_charge"));
+					} else {
+						GLog.w(Messages.get(this, "exposed"));
+					}
 					detach();
-					GLog.w(Messages.get(this, "no_charge"));
 					((Hero) target).interrupt();
 				} else {
 					//target hero level is 1 + 2*cloak level
