@@ -1047,6 +1047,8 @@ public class Badges {
 			badge = Badge.VICTORY_ALL_CLASSES;
 			displayBadge( badge );
 		}
+
+		validateClericUnlock();
 	}
 
 	public static void validateTakingTheMick(Object cause){
