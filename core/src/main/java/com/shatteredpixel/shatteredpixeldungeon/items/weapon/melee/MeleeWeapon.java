@@ -268,6 +268,15 @@ public class MeleeWeapon extends Weapon {
 		return req;
 	}
 
+	@Override
+	public int proc(Char attacker, Char defender, int damage) {
+		int dmg = super.proc(attacker, defender, damage);
+		if (attacker instanceof Hero && ((Hero) attacker).heroClass == HeroClass.DUELIST){
+			Buff.affect( attacker, MeleeWeapon.Charger.class ).gainCharge(0.15f);
+		}
+		return dmg;
+	}
+
 	private static boolean evaluatingTwinUpgrades = false;
 	@Override
 	public int buffedLvl() {
@@ -300,6 +309,12 @@ public class MeleeWeapon extends Weapon {
 			int exStr = ((Hero)owner).STR() - STRReq();
 			if (exStr > 0) {
 				damage += Hero.heroDamageIntRange( 0, exStr );
+			}
+
+			if (((Hero) owner).heroClass == HeroClass.DUELIST){
+				if (owner.buff(Charger.class).charges == 0){
+					damage *= 1.25f;
+				}
 			}
 		}
 		return damage;
