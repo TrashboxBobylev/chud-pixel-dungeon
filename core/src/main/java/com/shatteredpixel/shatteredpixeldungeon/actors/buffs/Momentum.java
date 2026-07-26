@@ -111,9 +111,9 @@ public class Momentum extends Buff implements ActionIndicator.Action {
 	
 	public float speedMultiplier(){
 		if (freerunning()){
-			return 2;
+			return 1.333f;
 		} else if (target.invisible > 0 && Dungeon.hero.pointsInTalent(Talent.SPEEDY_STEALTH) == 3){
-			return 2;
+			return 1.333f;
 		} else {
 			return 1;
 		}
@@ -121,7 +121,7 @@ public class Momentum extends Buff implements ActionIndicator.Action {
 	
 	public int evasionBonus( int heroLvl, int excessArmorStr ){
 		if (freerunTurns > 0) {
-			return heroLvl/2 + excessArmorStr*Dungeon.hero.pointsInTalent(Talent.EVASIVE_ARMOR);
+			return heroLvl/2 + excessArmorStr*(-1+Dungeon.hero.pointsInTalent(Talent.EVASIVE_ARMOR)*2);
 		} else {
 			return 0;
 		}

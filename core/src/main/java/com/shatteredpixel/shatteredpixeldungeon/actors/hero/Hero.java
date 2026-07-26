@@ -560,7 +560,16 @@ public class Hero extends Char {
 			return Math.max(1, Math.round(attackSkill * accuracy));
 		}
 	}
-	
+
+	@Override
+	public int defenseRolls() {
+		int rolls = super.defenseRolls();
+		if (buff(Momentum.class) != null && buff(Momentum.class).freerunning()){
+			rolls += 1;
+		}
+		return rolls;
+	}
+
 	@Override
 	public int defenseSkill( Char enemy ) {
 

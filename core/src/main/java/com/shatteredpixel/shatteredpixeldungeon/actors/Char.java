@@ -663,7 +663,13 @@ public abstract class Char extends Actor {
 		}
 		acuRoll *= accMulti;
 
-		float defRoll = Random.Float( defStat );
+		float defRoll = 0;
+		for (int i = 0; i < defender.defenseRolls(); i++) {
+			float roll = Random.Float(defStat);
+			if (roll > defRoll){
+				defRoll = roll;
+			}
+		}
 		if (defender.buff(Bless.class) != null) defRoll *= 1.25f;
 		if (defender.buff(  Hex.class) != null) defRoll *= 0.8f;
 		if (defender.buff( Daze.class) != null) defRoll *= 0.5f;
@@ -689,6 +695,10 @@ public abstract class Char extends Actor {
 	}
 
 	private static int hitMissIcon = -1;
+
+	public int defenseRolls(){
+		return 1;
+	}
 
 	public int attackSkill( Char target ) {
 		return 0;
