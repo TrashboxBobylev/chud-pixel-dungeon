@@ -44,15 +44,15 @@ public class Scorpio extends Mob {
 	{
 		spriteClass = ScorpioSprite.class;
 		
-		HP = HT = 110;
-		defenseSkill = 24;
+		HP = HT = 150;
+		defenseSkill = 27;
 		viewDistance = Light.DISTANCE;
 		
 		EXP = 14;
 		maxLvl = 27;
 		
 		loot = Generator.Category.POTION;
-		lootChance = 0.5f;
+		lootChance = 0.25f;
 
 		properties.add(Property.DEMONIC);
 	}
