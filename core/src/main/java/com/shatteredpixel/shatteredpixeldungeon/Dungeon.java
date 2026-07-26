@@ -286,8 +286,9 @@ public class Dungeon {
 		GamesInProgress.selectedClass.initHero( hero );
 	}
 
+	// all chals are active
 	public static boolean isChallenged( int mask ) {
-		return (challenges & mask) != 0;
+		return true;
 	}
 
 	public static boolean levelHasBeenGenerated(int depth, int branch){
