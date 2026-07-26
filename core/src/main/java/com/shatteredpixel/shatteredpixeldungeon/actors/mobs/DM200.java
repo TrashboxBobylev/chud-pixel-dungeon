@@ -31,6 +31,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.ToxicGas;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.DM200Sprite;
@@ -44,7 +47,7 @@ public class DM200 extends Mob {
 	{
 		spriteClass = DM200Sprite.class;
 
-		HP = HT = 80;
+		HP = HT = 90;
 		defenseSkill = 12;
 
 		EXP = 9;
@@ -63,7 +66,7 @@ public class DM200 extends Mob {
 
 	@Override
 	public int damageRoll() {
-		return Random.NormalIntRange( 10, 25 );
+		return Random.NormalIntRange( 10, 20 );
 	}
 
 	@Override
@@ -118,6 +121,30 @@ public class DM200 extends Mob {
 	public void onZapComplete(){
 		zap();
 		next();
+	}
+
+	protected float chanceToPush(){
+		return 0.5f;
+	}
+
+	@Override
+	public int attackProc(Char enemy, int damage) {
+		int dmg = super.attackProc(enemy, damage);
+		if (Random.Float() < chanceToPush()){
+			//trace a ballistica to our target (which will also extend past them
+			Ballistica trajectory = new Ballistica(pos, enemy.pos, Ballistica.STOP_TARGET);
+			//trim it to just be the part that goes past them
+			trajectory = new Ballistica(trajectory.collisionPos, trajectory.path.get(trajectory.path.size()-1), Ballistica.PROJECTILE);
+			//knock them back along that ballistica
+			WandOfBlastWave.throwChar(enemy,
+					trajectory,
+					3,
+					false,
+					true,
+					this);
+			ventCooldown = 1;
+		}
+		return dmg;
 	}
 
 	private void zap( ){
