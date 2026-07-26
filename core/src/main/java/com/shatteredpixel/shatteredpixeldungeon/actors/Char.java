@@ -134,6 +134,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blazin
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Grim;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Kinetic;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocking;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Sickle;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
@@ -397,6 +398,11 @@ public abstract class Char extends Actor {
 				}
 
 				if (h.buff(MonkEnergy.MonkAbility.UnarmedAbilityTracker.class) != null){
+					dr = 0;
+				}
+
+				if (h.belongings.attackingWeapon() instanceof MagesStaff
+					&& h.subClass == HeroSubClass.BATTLEMAGE){
 					dr = 0;
 				}
 			}
@@ -1006,6 +1012,11 @@ public abstract class Char extends Actor {
 			//special case for monk using unarmed abilities
 			if (src == Dungeon.hero
 					&& Dungeon.hero.buff(MonkEnergy.MonkAbility.UnarmedAbilityTracker.class) != null){
+				icon = FloatingText.PHYS_DMG_NO_BLOCK;
+			}
+
+			if (src == Dungeon.hero && Dungeon.hero.belongings.attackingWeapon() instanceof MagesStaff
+					&& Dungeon.hero.subClass == HeroSubClass.BATTLEMAGE){
 				icon = FloatingText.PHYS_DMG_NO_BLOCK;
 			}
 
