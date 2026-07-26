@@ -50,7 +50,7 @@ public class RipperDemon extends Mob {
 	{
 		spriteClass = RipperSprite.class;
 
-		HP = HT = 60;
+		HP = HT = 80;
 		defenseSkill = 22;
 		viewDistance = Light.DISTANCE;
 
@@ -72,22 +72,22 @@ public class RipperDemon extends Mob {
 
 	@Override
 	public int damageRoll() {
-		return Random.NormalIntRange( 15, 25 );
+		return Random.NormalIntRange( 11, 18 );
 	}
 
 	@Override
 	public int attackSkill( Char target ) {
-		return 30;
+		return 35;
 	}
 
 	@Override
 	public float attackDelay() {
-		return super.attackDelay()*0.5f;
+		return super.attackDelay()*0.25f;
 	}
 
 	@Override
 	public int drRoll() {
-		return super.drRoll() + Random.NormalIntRange(0, 4);
+		return super.drRoll() + Random.NormalIntRange(0, 6);
 	}
 
 	private static final String LAST_ENEMY_POS = "last_enemy_pos";
@@ -144,7 +144,7 @@ public class RipperDemon extends Mob {
 
 			if (leapPos != -1){
 
-				leapCooldown = Random.NormalIntRange(2, 4);
+				leapCooldown = Random.NormalIntRange(1, 3);
 
 				if (rooted){
 					leapPos = -1;

@@ -50,10 +50,10 @@ public class RipperSprite extends MobSprite {
 		run = new Animation( 15, true );
 		run.frames( frames, 3, 4, 5, 6, 7, 8 );
 
-		attack = new Animation( 12, false );
+		attack = new Animation( 18, false );
 		attack.frames( frames, 0, 9, 10, 9 );
 
-		stab = new Animation( 12, false );
+		stab = new Animation( 18, false );
 		stab.frames( frames, 0, 9, 11, 9 );
 
 		prep = new Animation( 1, true );
