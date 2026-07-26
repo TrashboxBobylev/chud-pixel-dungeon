@@ -98,7 +98,7 @@ public class WandOfWarding extends Wand {
 		for (Buff buff : curUser.buffs()){
 			if (buff instanceof Wand.Charger){
 				if (((Charger) buff).wand() instanceof WandOfWarding){
-					maxWardEnergy += 2 + ((Charger) buff).wand().level();
+					maxWardEnergy += 3 + ((Charger) buff).wand().level()*2;
 				}
 			}
 		}
@@ -221,12 +221,12 @@ public class WandOfWarding extends Wand {
 
 	@Override
 	public String upgradeStat1(int level) {
-		return 2+level + "-" + (8+4*level);
+		return 4+level*2 + "-" + (16+8*level);
 	}
 
 	@Override
 	public String upgradeStat2(int level) {
-		return Integer.toString(level+2);
+		return Integer.toString(level*2+2);
 	}
 
 	public static class Ward extends NPC {
@@ -375,7 +375,7 @@ public class WandOfWarding extends Wand {
 			spend( 1f );
 
 			//always hits
-			int dmg = Hero.heroDamageIntRange( 2 + wandLevel, 8 + 4*wandLevel );
+			int dmg = Hero.heroDamageIntRange( 4 + wandLevel*2, 12 + 8*wandLevel );
 			Char enemy = this.enemy;
 			enemy.damage( dmg, this );
 			if (enemy.isAlive()){
@@ -483,7 +483,7 @@ public class WandOfWarding extends Wand {
 					return Messages.get(this, "desc_generic_sentry");
 				}
 			} else {
-				return Messages.get(this, "desc_" + tier, 2 + wandLevel, 8 + 4 * wandLevel, tier);
+				return Messages.get(this, "desc_" + tier, 4 + wandLevel*2, 16 + 8 * wandLevel, tier);
 			}
 		}
 		
