@@ -63,7 +63,6 @@ public class ElixirOfMight extends Elixir {
 		GLog.p( Messages.get(this, "msg", hero.STR()) );
 
 		Badges.validateStrengthAttained();
-		Badges.validateDuelistUnlock();
 	}
 	
 	public String desc() {
