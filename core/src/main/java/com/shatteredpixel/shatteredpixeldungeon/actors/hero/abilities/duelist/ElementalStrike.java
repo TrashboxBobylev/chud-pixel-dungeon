@@ -260,7 +260,7 @@ public class ElementalStrike extends ArmorAbility {
 
 		//*** Vampiric ***
 		} else if (ench instanceof Vampiric){
-			if (targetsHit > 0){
+			if (targetsHit > 0 && !Dungeon.hero.isStarving()){
 				int heal = Math.round(2.5f*targetsHit*powerMulti);
 				heal = Math.min( heal, hero.HT - hero.HP );
 				if (heal > 0){

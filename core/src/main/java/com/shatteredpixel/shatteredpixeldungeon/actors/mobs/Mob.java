@@ -46,6 +46,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MonkEnergy;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Preparation;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sleep;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SoulMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
@@ -745,7 +746,7 @@ public abstract class Mob extends Char {
 			}
 		}
 
-		if (buff(SoulMark.class) != null) {
+		if (buff(SoulMark.class) != null && !Dungeon.hero.isStarving()) {
 			int restoration = Math.min(damage, HP+shielding());
 			
 			//physical damage that doesn't come from the hero is less effective

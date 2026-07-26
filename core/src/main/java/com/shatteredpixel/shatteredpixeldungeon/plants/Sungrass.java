@@ -99,7 +99,7 @@ public class Sungrass extends Plant {
 				partialHeal -= healThisTurn;
 				level -= healThisTurn;
 
-				if (target.HP < target.HT) {
+				if (target.HP < target.HT && (target != Dungeon.hero || !Dungeon.hero.isStarving())) {
 
 					target.HP += healThisTurn;
 					target.sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(healThisTurn), FloatingText.HEALING);
