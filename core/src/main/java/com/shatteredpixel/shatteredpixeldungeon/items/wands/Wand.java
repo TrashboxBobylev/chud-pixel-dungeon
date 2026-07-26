@@ -428,12 +428,12 @@ public abstract class Wand extends Item {
 	}
 
 	public void updateLevel() {
-		maxCharges = Math.min( initialCharges() + level(), 10 );
+		maxCharges = Math.min( initialCharges() + level()/2, 5 );
 		curCharges = Math.min( curCharges, maxCharges );
 	}
 	
 	public int initialCharges() {
-		return 2;
+		return 1;
 	}
 
 	protected int chargesPerCast() {
@@ -803,10 +803,10 @@ public abstract class Wand extends Item {
 	public class Charger extends Buff {
 		
 		private static final float BASE_CHARGE_DELAY = 10f;
-		private static final float SCALING_CHARGE_ADDITION = 40f;
-		private static final float NORMAL_SCALE_FACTOR = 0.875f;
+		private static final float SCALING_CHARGE_ADDITION = 30f;
+		private static final float NORMAL_SCALE_FACTOR = 0.75f;
 
-		private static final float CHARGE_BUFF_BONUS = 0.25f;
+		private static final float CHARGE_BUFF_BONUS = 0.4f;
 
 		float scalingFactor = NORMAL_SCALE_FACTOR;
 
