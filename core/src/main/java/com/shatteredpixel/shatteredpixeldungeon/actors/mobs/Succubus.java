@@ -58,14 +58,14 @@ public class Succubus extends Mob {
 	{
 		spriteClass = SuccubusSprite.class;
 		
-		HP = HT = 80;
+		HP = HT = 100;
 		defenseSkill = 25;
 		viewDistance = Light.DISTANCE;
 		
 		EXP = 12;
 		maxLvl = 25;
 		
-		loot = Generator.Category.SCROLL;
+		loot = Generator.Category.STONE;
 		lootChance = 0.33f;
 
 		properties.add(Property.DEMONIC);
@@ -73,7 +73,7 @@ public class Succubus extends Mob {
 	
 	@Override
 	public int damageRoll() {
-		return Random.NormalIntRange( 25, 30 );
+		return Random.NormalIntRange( 30, 35 );
 	}
 	
 	@Override
@@ -151,14 +151,14 @@ public class Succubus extends Mob {
 			if (candidates.size() > 0)
 				cell = Random.element(candidates);
 			else {
-				blinkCooldown = Random.IntRange(4, 6);
+				blinkCooldown = Random.IntRange(3, 5);
 				return false;
 			}
 		}
 		
 		ScrollOfTeleportation.appear( this, cell );
 
-		blinkCooldown = Random.IntRange(4, 6);
+		blinkCooldown = Random.IntRange(3, 5);
 		return true;
 	}
 	
