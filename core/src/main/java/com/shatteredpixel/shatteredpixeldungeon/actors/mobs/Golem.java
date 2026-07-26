@@ -46,7 +46,7 @@ public class Golem extends Mob {
 	{
 		spriteClass = GolemSprite.class;
 		
-		HP = HT = 120;
+		HP = HT = 150;
 		defenseSkill = 15;
 		
 		EXP = 12;
@@ -66,7 +66,7 @@ public class Golem extends Mob {
 
 	@Override
 	public int damageRoll() {
-		return Random.NormalIntRange( 25, 30 );
+		return Random.NormalIntRange( 30, 35 );
 	}
 	
 	@Override
@@ -76,7 +76,7 @@ public class Golem extends Mob {
 	
 	@Override
 	public int drRoll() {
-		return super.drRoll() + Random.NormalIntRange(0, 12);
+		return super.drRoll() + Random.NormalIntRange(0, 14);
 	}
 
 	@Override
@@ -176,6 +176,13 @@ public class Golem extends Mob {
 		}
 
 		enemyTeleCooldown = 20;
+	}
+
+	@Override
+	public void damage(int dmg, Object src) {
+		super.damage(dmg, src);
+		enemyTeleCooldown -= 2;
+		selfTeleCooldown -= 3;
 	}
 
 	private boolean canTele(int target){
