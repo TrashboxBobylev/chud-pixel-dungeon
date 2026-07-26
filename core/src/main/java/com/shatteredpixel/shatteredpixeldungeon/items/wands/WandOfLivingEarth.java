@@ -64,12 +64,12 @@ public class WandOfLivingEarth extends DamageWand {
 	
 	@Override
 	public int min(int lvl) {
-		return 4;
+		return 8 + lvl;
 	}
 	
 	@Override
 	public int max(int lvl) {
-		return 6 + 2*lvl;
+		return 12 + 4*lvl;
 	}
 	
 	@Override
@@ -202,7 +202,7 @@ public class WandOfLivingEarth extends DamageWand {
 
 	@Override
 	public String upgradeStat2(int level) {
-		return Integer.toString(16 + 8*level);
+		return Integer.toString(32 + 16*level);
 	}
 
 	@Override
@@ -389,7 +389,7 @@ public class WandOfLivingEarth extends DamageWand {
 		public void setInfo(Hero hero, int wandLevel, int healthToAdd){
 			if (wandLevel > this.wandLevel) {
 				this.wandLevel = wandLevel;
-				HT = 16 + 8 * wandLevel;
+				HT = 32 + 16 * wandLevel;
 			}
 			if (HP != 0 && sprite != null){
 				sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(healthToAdd), FloatingText.HEALING);
