@@ -29,8 +29,12 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Hex;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Light;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vulnerable;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Weakness;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.particles.PurpleParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Dewdrop;
@@ -54,7 +58,7 @@ public class Eye extends Mob {
 	{
 		spriteClass = EyeSprite.class;
 		
-		HP = HT = 100;
+		HP = HT = 130;
 		defenseSkill = 20;
 		viewDistance = Light.DISTANCE;
 		
@@ -73,7 +77,7 @@ public class Eye extends Mob {
 
 	@Override
 	public int damageRoll() {
-		return Random.NormalIntRange(20, 30);
+		return Random.NormalIntRange(25, 35);
 	}
 
 	@Override
@@ -83,7 +87,7 @@ public class Eye extends Mob {
 	
 	@Override
 	public int drRoll() {
-		return super.drRoll() + Random.NormalIntRange(0, 10);
+		return super.drRoll() + Random.NormalIntRange(0, 13);
 	}
 	
 	private Ballistica beam;
@@ -134,7 +138,7 @@ public class Eye extends Mob {
 			return super.doAttack(enemy);
 		} else if (!beamCharged){
 			((EyeSprite)sprite).charge( enemy.pos );
-			spend( attackDelay()*2f );
+			spend( attackDelay() );
 			beamCharged = true;
 			return true;
 		} else {
@@ -173,7 +177,7 @@ public class Eye extends Mob {
 			return;
 
 		beamCharged = false;
-		beamCooldown = Random.IntRange(4, 6);
+		beamCooldown = Random.IntRange(3, 5);
 
 		boolean terrainAffected = false;
 
@@ -208,6 +212,9 @@ public class Eye extends Mob {
 				}
 
 				ch.damage( dmg, new DeathGaze() );
+				Buff.affect(ch, Weakness.class, Weakness.DURATION);
+				Buff.affect(ch, Vulnerable.class, Vulnerable.DURATION);
+				Buff.affect(ch, Hex.class, Hex.DURATION);
 
 				if (Dungeon.level.heroFOV[pos]) {
 					ch.sprite.flash();
