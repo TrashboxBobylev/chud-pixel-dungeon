@@ -456,7 +456,7 @@ public abstract class YogFist extends Mob {
 		{
 			spriteClass = FistSprite.Rusted.class;
 
-			properties.add(Property.LARGE);
+			properties.add(Property.SEMI_LARGE);
 			properties.add(Property.INORGANIC);
 		}
 

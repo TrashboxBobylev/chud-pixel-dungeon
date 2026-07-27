@@ -798,6 +798,9 @@ public abstract class Char extends Actor {
 		speed *= Swiftness.speedBoost(this, glyphLevel(Swiftness.class));
 		speed *= Flow.speedBoost(this, glyphLevel(Flow.class));
 		speed *= Bulk.speedBoost(this, glyphLevel(Bulk.class));
+		if (!Dungeon.level.openSpace[pos] && hasProp(this, Property.SEMI_LARGE)) {
+			speed = Math.max(0.25f, speed / 3f);
+		}
 
 		return speed;
 	}
@@ -1375,7 +1378,7 @@ public abstract class Char extends Actor {
 		HashSet<Property> props = new HashSet<>(properties);
 		//TODO any more of these and we should make it a property of the buff, like with resistances/immunities
 		if (buff(ChampionEnemy.Giant.class) != null) {
-			props.add(Property.LARGE);
+			props.add(Property.SEMI_LARGE);
 		}
 		return props;
 	}
@@ -1400,6 +1403,7 @@ public abstract class Char extends Actor {
 										Electricity.class, ShockingDart.class, Elemental.ShockElemental.class )),
 				new HashSet<Class>()),
 		LARGE,
+		SEMI_LARGE,
 		IMMOVABLE ( new HashSet<Class>(),
 				new HashSet<Class>( Arrays.asList(Vertigo.class) )),
 		//A character that acts in an unchanging manner. immune to AI state debuffs or stuns/slows

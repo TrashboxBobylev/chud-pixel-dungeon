@@ -57,7 +57,7 @@ public class DM200 extends Mob {
 		lootChance = 0.2f; //initially, see lootChance()
 
 		properties.add(Property.INORGANIC);
-		properties.add(Property.LARGE);
+		properties.add(Property.SEMI_LARGE);
 
 		HUNTING = new Hunting();
 

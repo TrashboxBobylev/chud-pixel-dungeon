@@ -56,7 +56,7 @@ public class Golem extends Mob {
 		lootChance = 0.2f; //initially, see lootChance()
 
 		properties.add(Property.INORGANIC);
-		properties.add(Property.LARGE);
+		properties.add(Property.SEMI_LARGE);
 
 		WANDERING = new Wandering();
 		HUNTING = new Hunting();
