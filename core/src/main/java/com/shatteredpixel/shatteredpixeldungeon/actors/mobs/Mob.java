@@ -703,8 +703,6 @@ public abstract class Mob extends Char {
 				&& paralysed == 0
 				&& !(alignment == Alignment.ALLY && enemy == Dungeon.hero)) {
 			return this.defenseSkill;
-		} else if (surprisedBy(enemy) || enemy.invisible == 0) {
-			return Math.round(this.defenseSkill/2.5f);
 		} else {
 			return 0;
 		}
