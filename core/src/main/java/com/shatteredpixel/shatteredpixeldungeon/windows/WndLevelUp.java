@@ -108,7 +108,7 @@ public class WndLevelUp extends Window {
                 @Override
                 protected void onClick() {
                     GameScene.show(new WndOptions(benefit.icon(),
-                            Messages.titleCase(Messages.get(this, benefit.name() + ".title")),
+                            Messages.titleCase(Messages.get(WndLevelUp.class, benefit.name() + ".title")),
                             Messages.get(WndLevelUp.this, "are_you_sure"),
                             Messages.get(WndLevelUp.this, "yes"),
                             Messages.get(WndLevelUp.this, "no")){
