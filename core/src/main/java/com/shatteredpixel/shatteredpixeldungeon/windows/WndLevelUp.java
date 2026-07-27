@@ -157,12 +157,12 @@ public class WndLevelUp extends Window {
         POW{
             @Override
             public void onSelection() {
-                Dungeon.hero.STR++;
+                Dungeon.hero.incrementStats();
             }
 
             @Override
             public Image icon() {
-                return new TalentIcon(Talent.STRONGMAN);
+                return new TalentIcon(Talent.SWIFT_EQUIP);
             }
         },
         WIS{

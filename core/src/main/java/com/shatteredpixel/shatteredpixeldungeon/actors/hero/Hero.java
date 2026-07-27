@@ -2073,8 +2073,7 @@ public class Hero extends Char {
 					buff(ElixirOfMight.HTBoost.class).onLevelUp();
 				}
 
-				attackSkill++;
-				defenseSkill++;
+				incrementStats();
 
 			} else {
 				Buff.prolong(this, Bless.class, Bless.DURATION);
@@ -2111,7 +2110,12 @@ public class Hero extends Char {
 			Badges.validateLevelReached();
 		}
 	}
-	
+
+	public void incrementStats() {
+		attackSkill++;
+		defenseSkill++;
+	}
+
 	public int maxExp() {
 		return maxExp( lvl );
 	}
