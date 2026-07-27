@@ -430,8 +430,8 @@ public class SkeletonKey extends Artifact {
 					&& !cursed
 					&& target.buff(MagicImmune.class) == null
 					&& Regeneration.regenOn()) {
-				//120 turns to charge at full, 60 turns to charge at 0/8
-				float chargeGain = 1 / (120f - (chargeCap - charge)*7.5f);
+				//90 turns to charge at full, 42 turns to charge at 0/8
+				float chargeGain = 1 / (90f - (chargeCap - charge)*6f);
 				chargeGain *= RingOfEnergy.artifactChargeMultiplier(target);
 				partialCharge += chargeGain;
 
