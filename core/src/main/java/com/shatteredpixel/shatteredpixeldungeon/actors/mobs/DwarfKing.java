@@ -86,7 +86,7 @@ public class DwarfKing extends Mob {
 	{
 		spriteClass = KingSprite.class;
 
-		HP = HT = Dungeon.isChallenged(Challenges.STRONGER_BOSSES) ? 900 : 300;
+		HP = HT = Dungeon.isChallenged(Challenges.STRONGER_BOSSES) ? 630 : 300;
 		EXP = 40;
 		defenseSkill = 22;
 
