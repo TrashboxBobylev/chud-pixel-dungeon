@@ -55,7 +55,7 @@ public class RingOfForce extends Ring {
 	}
 	
 	public static int armedDamageBonus( Char ch ){
-		return getBuffedBonus( ch, Force.class);
+		return (int) getBuffedBonus( ch, Force.class);
 	}
 
 	@Override
@@ -93,7 +93,7 @@ public class RingOfForce extends Ring {
 			usingForce = false;
 		}
 		if (usingForce) {
-			int level = getBuffedBonus(hero, Force.class);
+			float level = getBuffedBonus(hero, Force.class);
 			float tier = tier(hero.STR());
 			int dmg = Hero.heroDamageIntRange(min(level, tier), max(level, tier));
 			if (hero.buff(BrawlersStance.class) != null
@@ -110,7 +110,7 @@ public class RingOfForce extends Ring {
 	}
 
 	//same as equivalent tier weapon
-	private static int min(int lvl, float tier){
+	private static int min(float lvl, float tier){
 		if (lvl <= 0) tier = 1; //tier is forced to 1 if cursed
 
 		return Math.max( 0, Math.round(
@@ -120,7 +120,7 @@ public class RingOfForce extends Ring {
 	}
 
 	//same as equivalent tier weapon
-	private static int max(int lvl, float tier){
+	private static int max(float lvl, float tier){
 		if (lvl <= 0) tier = 1; //tier is forced to 1 if cursed
 
 		return Math.max( 0, Math.round(
@@ -133,7 +133,7 @@ public class RingOfForce extends Ring {
 	public String statsInfo() {
 		float tier = tier(Dungeon.hero != null ? Dungeon.hero.STR() : 10);
 		if (isIdentified()) {
-			int level = soloBuffedBonus();
+			float level = soloBuffedBonus();
 			String info = Messages.get(this, "stats", min(level, tier), max(level, tier), level);
 			if (isEquipped(Dungeon.hero) && soloBuffedBonus() != combinedBuffedBonus(Dungeon.hero)){
 				level = combinedBuffedBonus(Dungeon.hero);
@@ -244,7 +244,7 @@ public class RingOfForce extends Ring {
 		if (Dungeon.hero != null && Dungeon.hero.heroClass == HeroClass.DUELIST
 			&& (anonymous || isIdentified() || isEquipped(Dungeon.hero))){
 			//0 if unidentified, solo level if unequipped, combined level if equipped
-			int level = isIdentified() ? (isEquipped(Dungeon.hero) ? getBuffedBonus(Dungeon.hero, Force.class) : soloBuffedBonus()) : 0;
+			float level = isIdentified() ? (isEquipped(Dungeon.hero) ? getBuffedBonus(Dungeon.hero, Force.class) : soloBuffedBonus()) : 0;
 			float tier = tier(Dungeon.hero.STR());
 			int dmgBoost = Math.round(3+tier+(level*((4+2*tier)/8f)));
 			if (isIdentified()) {

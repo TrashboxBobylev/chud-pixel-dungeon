@@ -238,6 +238,7 @@ public class Hero extends Char {
 
 	public int hp_lvl = 0;
 	public int str_lvl = 0;
+	public int rng_lvl = 0;
 	public int[] tal_lvl = new int[4];
 	
 	public int HTBoost = 0;

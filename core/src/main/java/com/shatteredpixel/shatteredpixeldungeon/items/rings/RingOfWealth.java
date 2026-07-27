@@ -112,7 +112,7 @@ public class RingOfWealth extends Ring {
 	}
 	
 	public static ArrayList<Item> tryForBonusDrop(Char target, int tries ){
-		int bonus = getBuffedBonus(target, Wealth.class);
+		int bonus = (int) getBuffedBonus(target, Wealth.class);
 
 		if (bonus <= 0) return null;
 
@@ -141,7 +141,7 @@ public class RingOfWealth extends Ring {
 				//using the two to get substantially more upgrade value than intended
 				for (Wealth w : target.buffs(Wealth.class)){
 					if (w.buffedLvl() > equipBonus){
-						equipBonus = w.buffedLvl() + Math.min(equipBonus, 2);
+						equipBonus = (int) (w.buffedLvl() + Math.min(equipBonus, 2));
 					} else {
 						equipBonus += Math.min(w.buffedLvl(), 2);
 					}

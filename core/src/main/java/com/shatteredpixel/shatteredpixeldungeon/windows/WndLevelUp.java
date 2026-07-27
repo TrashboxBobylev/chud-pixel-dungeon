@@ -184,7 +184,19 @@ public class WndLevelUp extends Window {
             public Image icon() {
                 return Icons.get(Icons.TALENT);
             }
-        };
+        },
+        CHA{
+            @Override
+            public void onSelection() {
+                Dungeon.hero.rng_lvl++;
+                Dungeon.hero.updateHT(false);
+            }
+
+            @Override
+            public Image icon() {
+                return new TalentIcon(Talent.ENHANCED_RINGS);
+            }
+        },;
 
         public abstract Image icon();
 

@@ -357,9 +357,9 @@ public class Ring extends KindofMisc {
 		return lvl;
 	}
 
-	public static int getBonus(Char target, Class<?extends RingBuff> type){
+	public static float getBonus(Char target, Class<?extends RingBuff> type){
 		if (target.buff(MagicImmune.class) != null) return 0;
-		int bonus = 0;
+		float bonus = 0;
 		for (RingBuff buff : target.buffs(type)) {
 			bonus += buff.level();
 		}
@@ -373,9 +373,9 @@ public class Ring extends KindofMisc {
 		return bonus;
 	}
 
-	public static int getBuffedBonus(Char target, Class<?extends RingBuff> type){
+	public static float getBuffedBonus(Char target, Class<?extends RingBuff> type){
 		if (target.buff(MagicImmune.class) != null) return 0;
-		int bonus = 0;
+		float bonus = 0;
 		for (RingBuff buff : target.buffs(type)) {
 			bonus += buff.buffedLvl();
 		}
@@ -389,26 +389,34 @@ public class Ring extends KindofMisc {
 	}
 
 	//just used for ring descriptions
-	public int soloBonus(){
+	public float soloBonus(){
+		float lvl;
 		if (cursed){
-			return Math.min( 0, Ring.this.level()-2 );
+			lvl = Math.min( 0, Ring.this.level()-2 );
 		} else {
-			return Ring.this.level()+1;
+			lvl = Ring.this.level()+1;
 		}
+		if (Dungeon.hero != null)
+			lvl += Dungeon.hero.rng_lvl/2f;
+		return lvl;
 	}
 
 	//just used for ring descriptions
-	public int soloBuffedBonus(){
+	public float soloBuffedBonus(){
+		float lvl;
 		if (cursed){
-			return Math.min( 0, Ring.this.buffedLvl()-2 );
+			lvl = Math.min( 0, Ring.this.buffedLvl()-2 );
 		} else {
-			return Ring.this.buffedLvl()+1;
+			lvl = Ring.this.buffedLvl() + 1;
 		}
+		if (Dungeon.hero != null)
+			lvl += Dungeon.hero.rng_lvl/2f;
+		return lvl;
 	}
 
 	//just used for ring descriptions
-	public int combinedBonus(Hero hero){
-		int bonus = 0;
+	public float combinedBonus(Hero hero){
+		float bonus = 0;
 		if (hero.belongings.ring() != null && hero.belongings.ring().getClass() == getClass()){
 			bonus += hero.belongings.ring().soloBonus();
 		}
@@ -419,8 +427,8 @@ public class Ring extends KindofMisc {
 	}
 
 	//just used for ring descriptions
-	public int combinedBuffedBonus(Hero hero){
-		int bonus = 0;
+	public float combinedBuffedBonus(Hero hero){
+		float bonus = 0;
 		if (hero.belongings.ring() != null && hero.belongings.ring().getClass() == getClass()){
 			bonus += hero.belongings.ring().soloBuffedBonus();
 		}
@@ -450,11 +458,11 @@ public class Ring extends KindofMisc {
 			return true;
 		}
 
-		public int level(){
+		public float level(){
 			return Ring.this.soloBonus();
 		}
 
-		public int buffedLvl(){
+		public float buffedLvl(){
 			return Ring.this.soloBuffedBonus();
 		}
 
