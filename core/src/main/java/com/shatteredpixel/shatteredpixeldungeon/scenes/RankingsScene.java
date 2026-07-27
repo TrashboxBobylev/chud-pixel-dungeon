@@ -171,12 +171,13 @@ public class RankingsScene extends PixelScene {
 			add(btnDailies);
 		}
 
-		if (Dungeon.daily){
+		if (Dungeon.daily) {
 			addToFront(new WndDailies());
-		} else if (Badges.isUnlocked(Badges.Badge.VICTORY) && !SPDSettings.victoryNagged()) {
-			SPDSettings.victoryNagged(true);
-			add(new WndVictoryCongrats());
 		}
+//		} else if (Badges.isUnlocked(Badges.Badge.VICTORY) && !SPDSettings.victoryNagged()) {
+//			SPDSettings.victoryNagged(true);
+//			add(new WndVictoryCongrats());
+//		}
 
 		fadeIn();
 	}

@@ -395,10 +395,10 @@ public class HeroSelectScene extends PixelScene {
 			setSelectedHero(GamesInProgress.selectedClass);
 		}
 
-		if (Badges.isUnlocked(Badges.Badge.VICTORY) && !SPDSettings.victoryNagged()) {
-			SPDSettings.victoryNagged(true);
-			add(new WndVictoryCongrats());
-		}
+//		if (Badges.isUnlocked(Badges.Badge.VICTORY) && !SPDSettings.victoryNagged()) {
+//			SPDSettings.victoryNagged(true);
+//			add(new WndVictoryCongrats());
+//		}
 
 		fadeIn();
 
