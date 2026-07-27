@@ -30,16 +30,15 @@ import com.shatteredpixel.shatteredpixeldungeon.messages.Languages;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ExitButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
-import com.shatteredpixel.shatteredpixeldungeon.ui.TitleBackground;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.shatteredpixel.shatteredpixeldungeon.ui.StyledButton;
+import com.shatteredpixel.shatteredpixeldungeon.ui.TitleBackground;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
 import com.shatteredpixel.shatteredpixeldungeon.windows.IconTitle;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.NinePatch;
 import com.watabou.noosa.ui.Component;
-import com.watabou.utils.Callback;
 import com.watabou.utils.RectF;
 
 public class SupporterScene extends PixelScene {
@@ -133,12 +132,12 @@ public class SupporterScene extends PixelScene {
 			if (Messages.lang() != Languages.ENGLISH) {
 				message += "\n" + Messages.get(SupporterScene.class, "patreon_english");
 			}
-			message += "\n\n- Evan";
+			message += "\n\n- Not Evan";
 
 			text = PixelScene.renderTextBlock(message, 6);
 			add(text);
 
-			icon = Icons.get(Icons.SHPX);
+			icon = Icons.get(Icons.CHUD_LEVEL);
 			add(icon);
 
 		}
@@ -151,8 +150,8 @@ public class SupporterScene extends PixelScene {
 			text.maxWidth((int)width - bg.marginHor());
 			text.setPos(x + bg.marginLeft(), y + bg.marginTop() + 1);
 
-			icon.y = text.bottom() - icon.height() + 4;
-			icon.x = x + 25;
+			icon.y = text.bottom() - icon.height() + 6;
+			icon.x = x + 32;
 
 			height = (text.bottom() + 3) - y;
 
