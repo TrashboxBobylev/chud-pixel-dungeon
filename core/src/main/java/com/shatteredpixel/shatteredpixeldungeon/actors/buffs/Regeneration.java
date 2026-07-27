@@ -43,6 +43,7 @@ public class Regeneration extends Buff {
 	}
 
 	private float partialRegen = 0f;
+	public int stacks = 0;
 
 	private static final float REGENERATION_DELAY = 10; //1HP every 10 turns
 	
@@ -86,14 +87,16 @@ public class Regeneration extends Buff {
 				}
 
 				partialRegen += 1f / delay;
+				partialRegen *= Math.pow(1.1f, stacks);
 
-				if (partialRegen >= 1) {
+				while (partialRegen >= 1) {
 					target.HP += (int)partialRegen;
 					partialRegen -= (int)partialRegen;
 					if (target.HP >= regencap()) {
 						target.HP = regencap();
 						((Hero) target).resting = false;
 					}
+					stacks++;
 				}
 
 			}
@@ -125,16 +128,19 @@ public class Regeneration extends Buff {
 	}
 
 	public static final String PARTIAL_REGEN = "partial_regen";
+	public static final String STACKS = "stacks";
 
 	@Override
 	public void storeInBundle(Bundle bundle) {
 		super.storeInBundle(bundle);
 		bundle.put(PARTIAL_REGEN, partialRegen);
+		bundle.put(STACKS, stacks);
 	}
 
 	@Override
 	public void restoreFromBundle(Bundle bundle) {
 		super.restoreFromBundle(bundle);
 		partialRegen = bundle.getFloat(PARTIAL_REGEN);
+		stacks = bundle.getInt(STACKS);
 	}
 }

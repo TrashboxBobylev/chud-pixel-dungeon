@@ -1592,7 +1592,12 @@ public class Hero extends Char {
 		if (rockArmor != null) {
 			damage = rockArmor.absorb(damage);
 		}
-		
+
+		Regeneration regen = buff(Regeneration.class);
+		if (regen != null){
+			regen.stacks = Math.max(0, regen.stacks - 2);
+		}
+
 		return super.defenseProc( enemy, damage );
 	}
 

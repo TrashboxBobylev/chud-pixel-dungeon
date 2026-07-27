@@ -67,6 +67,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Ooze;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Preparation;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ShieldBuff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sleep;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Slow;
@@ -946,6 +947,11 @@ public abstract class Char extends Actor {
 				dmg -= Random.NormalIntRange(0, buff(ArcaneArmor.class).level());
 			}
 			if (dmg < 0) dmg = 0;
+
+			Regeneration regen = buff(Regeneration.class);
+			if (regen != null){
+				regen.stacks = Math.max(0, regen.stacks - 2);
+			}
 		}
 		
 		if (buff( Paralysis.class ) != null) {

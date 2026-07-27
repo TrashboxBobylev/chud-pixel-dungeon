@@ -45,15 +45,18 @@ public class Hunger extends Buff implements Hero.Doom {
 
 	private float level;
 	private float partialDamage;
+	private int stacks;
 
 	private static final String LEVEL			= "level";
 	private static final String PARTIALDAMAGE 	= "partialDamage";
+	private static final String STACKS			= "stacks";
 
 	@Override
 	public void storeInBundle( Bundle bundle ) {
 		super.storeInBundle(bundle);
 		bundle.put( LEVEL, level );
 		bundle.put( PARTIALDAMAGE, partialDamage );
+		bundle.put( STACKS, stacks );
 	}
 
 	@Override
@@ -61,6 +64,7 @@ public class Hunger extends Buff implements Hero.Doom {
 		super.restoreFromBundle( bundle );
 		level = bundle.getFloat( LEVEL );
 		partialDamage = bundle.getFloat(PARTIALDAMAGE);
+		stacks = bundle.getInt(STACKS);
 	}
 
 	@Override
@@ -81,11 +85,12 @@ public class Hunger extends Buff implements Hero.Doom {
 
 			if (isStarving()) {
 
-				partialDamage += target.HT/1000f;
+				partialDamage += target.HT/Math.max(100f, 1000f - 25*stacks);
 
 				if (partialDamage > 1){
 					target.damage( (int)partialDamage, this);
 					partialDamage -= (int)partialDamage;
+					stacks++;
 				}
 				
 			} else {
@@ -148,15 +153,17 @@ public class Hunger extends Buff implements Hero.Doom {
 		float oldLevel = level;
 
 		level -= energy;
+		stacks = 0;
 		if (level < 0 && !overrideLimits) {
 			level = 0;
 		} else if (level > STARVING) {
 			float excess = level - STARVING;
 			level = STARVING;
-			partialDamage += excess * (target.HT/1000f);
+			partialDamage += excess * (target.HT/Math.max(100f, 1000f - 25f*stacks));
 			if (partialDamage > 1f){
 				target.damage( (int)partialDamage, this );
 				partialDamage -= (int)partialDamage;
+				stacks++;
 			}
 		}
 
