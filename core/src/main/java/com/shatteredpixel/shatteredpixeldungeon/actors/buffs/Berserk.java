@@ -65,7 +65,7 @@ public class Berserk extends ShieldBuff implements ActionIndicator.Action {
 	private float levelRecovery;
 
 	private static final int TURN_RECOVERY_START = 100;
-	private int turnRecovery;
+	private float turnRecovery;
 
 	public int powerLossBuffer = 0;
 	private float power = 0;
@@ -94,7 +94,7 @@ public class Berserk extends ShieldBuff implements ActionIndicator.Action {
 		power = bundle.getFloat(POWER);
 		powerLossBuffer = bundle.getInt(POWER_BUFFER);
 		levelRecovery = bundle.getFloat(LEVEL_RECOVERY);
-		turnRecovery = bundle.getInt(TURN_RECOVERY);
+		turnRecovery = bundle.getFloat(TURN_RECOVERY);
 
 		if (power >= 1f && state == State.NORMAL){
 			ActionIndicator.setAction(this);
@@ -105,8 +105,8 @@ public class Berserk extends ShieldBuff implements ActionIndicator.Action {
 	public boolean act() {
 		if (state == State.BERSERK){
 			if (target.shielding() > 0) {
-				//lose 2.5% of shielding per turn, but no less than 1
-				float dmg = (float)Math.ceil(target.shielding() * 0.025f) * HoldFast.buffDecayFactor(target);
+				//lose 2% of shielding per turn, but no less than 1
+				float dmg = (float)Math.ceil(target.shielding() * 0.02f) * HoldFast.buffDecayFactor(target);
 				if (Random.Float() < dmg % 1){
 					dmg++;
 				}
@@ -136,7 +136,7 @@ public class Berserk extends ShieldBuff implements ActionIndicator.Action {
 			if (powerLossBuffer > 0){
 				powerLossBuffer--;
 			} else {
-				power -= GameMath.gate(0.1f, power, 1f) * 0.05f * Math.pow((target.HP / (float) target.HT), 2);
+				power -= GameMath.gate(0.1f, power, 1f) * 0.15f * Math.pow((target.HP / (float) target.HT), 2);
 
 				if (power < 1f){
 					ActionIndicator.clearAction(this);
@@ -149,7 +149,12 @@ public class Berserk extends ShieldBuff implements ActionIndicator.Action {
 				}
 			}
 		} else if (state == State.RECOVERING && levelRecovery == 0 && Regeneration.regenOn()){
-			turnRecovery--;
+			Regeneration regen = target.buff(Regeneration.class);
+			if (regen != null){
+				turnRecovery -= (float) Math.pow(1.1f, regen.stacks);
+			} else {
+				turnRecovery--;
+			}
 			if (turnRecovery <= 0){
 				turnRecovery = 0;
 				state = State.NORMAL;
@@ -169,11 +174,15 @@ public class Berserk extends ShieldBuff implements ActionIndicator.Action {
 	}
 
 	public float enchantFactor(float chance){
-		return chance + ((Math.min(1f, power) * 0.15f) * ((Hero) target).pointsInTalent(Talent.ENRAGED_CATALYST));
+		return chance + ((Math.min(1f, power) * 0.2f) * ((Hero) target).pointsInTalent(Talent.ENRAGED_CATALYST));
 	}
 
 	public float damageFactor(float dmg){
-		return dmg * Math.min(1.5f, 1f + (power / 2f));
+		return dmg * Math.min(2f, 1f + power);
+	}
+
+	public float damageReduction(float dmg){
+		return dmg * Math.max(0.333f, 1f - (power / 1.5f));
 	}
 
 	public boolean berserking(){
@@ -233,7 +242,7 @@ public class Berserk extends ShieldBuff implements ActionIndicator.Action {
 		if (target instanceof Hero && ((Hero) target).belongings.armor() != null){
 			baseShield += 2*((Hero) target).belongings.armor().buffedLvl();
 		}
-		return baseShield*3;
+		return baseShield*4;
 	}
 	
 	public void damage(int damage){
@@ -342,7 +351,7 @@ public class Berserk extends ShieldBuff implements ActionIndicator.Action {
 				if (levelRecovery > 0) {
 					return Messages.decimalFormat("#.##", levelRecovery);
 				} else {
-					return Integer.toString(turnRecovery);
+					return Integer.toString((int) turnRecovery);
 				}
 		}
 	}
@@ -362,9 +371,10 @@ public class Berserk extends ShieldBuff implements ActionIndicator.Action {
 	@Override
 	public String desc() {
 		float dispDamage = ((int)damageFactor(10000) / 100f) - 100f;
+		float dispDR = ((10000 - (int)damageReduction(10000)) / 100f);
 		switch (state){
 			case NORMAL: default:
-				return Messages.get(this, "angered_desc", Math.floor(power * 100f), dispDamage, currentShieldBoost());
+				return Messages.get(this, "angered_desc", Math.floor(power * 100f), dispDamage, dispDR, currentShieldBoost());
 			case BERSERK:
 				return Messages.get(this, "berserk_desc", shielding());
 			case RECOVERING:

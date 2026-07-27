@@ -29,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.Statistics;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Berserk;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Momentum;
@@ -820,6 +821,10 @@ public class Armor extends EquipableItem {
 
 		public static float genericProcChanceMultiplier( Char defender ){
 			float multi = RingOfArcana.enchantPowerMultiplier(defender);
+			Berserk rage = defender.buff(Berserk.class);
+			if (rage != null) {
+				multi = rage.enchantFactor(multi);
+			}
 
 			if (Dungeon.hero.alignment == defender.alignment
 					&& Dungeon.hero.buff(AuraOfProtection.AuraBuff.class) != null

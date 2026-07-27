@@ -436,9 +436,6 @@ public abstract class Char extends Actor {
 				}
 			}
 
-			Berserk berserk = buff(Berserk.class);
-			if (berserk != null) dmg = berserk.damageFactor(dmg);
-
 			if (buff( Fury.class ) != null) {
 				dmg *= 1.5f;
 			}
@@ -907,6 +904,9 @@ public abstract class Char extends Actor {
 		}
 		if (alignment != Alignment.ALLY && this.buff(DeathMark.DeathMarkTracker.class) != null){
 			damage *= 1.25f;
+		}
+		if (buff(Berserk.class) != null){
+			damage = buff(Berserk.class).damageReduction(damage);
 		}
 
 		if (buff(Sickle.HarvestBleedTracker.class) != null){

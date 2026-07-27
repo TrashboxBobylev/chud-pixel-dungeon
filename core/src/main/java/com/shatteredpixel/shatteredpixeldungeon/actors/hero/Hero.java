@@ -815,6 +815,9 @@ public class Hero extends Char {
 
 		float delay = 1f;
 
+		if (buff(Berserk.class) != null)
+			delay /= buff(Berserk.class).damageFactor(1);
+
 		if (!RingOfForce.fightingUnarmed(this)) {
 			
 			return delay * belongings.attackingWeapon().delayFactor( this );
