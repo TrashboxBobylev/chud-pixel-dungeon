@@ -38,8 +38,8 @@ allprojects {
         appName = 'Chud Pixel Dungeon'
         appPackageName = 'com.trashboxbobylev.chuddungeon'
 
-        appVersionCode = 896
-        appVersionName = '1'
+        appVersionCode = 897
+        appVersionName = '2'
 
         appJavaCompatibility = JavaVersion.VERSION_11
 
