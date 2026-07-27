@@ -174,6 +174,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.QuickSlotButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.StatusPane;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndHero;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndLevelUp;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndResurrect;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndTradeItem;
 import com.watabou.noosa.Game;
@@ -234,6 +235,10 @@ public class Hero extends Char {
 	
 	public int lvl = 1;
 	public int exp = 0;
+
+	public int hp_lvl = 0;
+	public int str_lvl = 0;
+	public int[] tal_lvl = new int[4];
 	
 	public int HTBoost = 0;
 	
@@ -257,7 +262,8 @@ public class Hero extends Char {
 	public void updateHT( boolean boostHP ){
 		int curHT = HT;
 		
-		HT = 20 + 5*(lvl-1) + HTBoost;
+		HT = 20 + HTBoost;
+		HT += hp_lvl*5;
 		float multiplier = RingOfMight.HTMultiplier(this);
 		HT = Math.round(multiplier * HT);
 		
@@ -282,10 +288,10 @@ public class Hero extends Char {
 		}
 
 		if (hasTalent(Talent.STRONGMAN)){
-			strBonus += (int)Math.floor(STR * (0.03f + 0.05f*pointsInTalent(Talent.STRONGMAN)));
+			strBonus += (int)Math.floor((STR+str_lvl) * (0.03f + 0.05f*pointsInTalent(Talent.STRONGMAN)));
 		}
 
-		return STR + strBonus;
+		return STR + str_lvl + strBonus;
 	}
 
 	private static final String CLASS       = "class";
@@ -296,6 +302,9 @@ public class Hero extends Char {
 	private static final String DEFENSE		= "defenseSkill";
 	private static final String STRENGTH	= "STR";
 	private static final String LEVEL		= "lvl";
+	private static final String HP_LEVEL	= "hp_lvl";
+	private static final String STR_LEVEL	= "str_lvl";
+	private static final String TAL_LEVEL	= "tal_lvl";
 	private static final String EXPERIENCE	= "exp";
 	private static final String HTBOOST     = "htboost";
 	
@@ -315,6 +324,9 @@ public class Hero extends Char {
 		bundle.put( STRENGTH, STR );
 		
 		bundle.put( LEVEL, lvl );
+		bundle.put( HP_LEVEL, hp_lvl );
+		bundle.put( STR_LEVEL, str_lvl );
+		bundle.put( TAL_LEVEL, tal_lvl );
 		bundle.put( EXPERIENCE, exp );
 		
 		bundle.put( HTBOOST, HTBoost );
@@ -327,6 +339,10 @@ public class Hero extends Char {
 
 		lvl = bundle.getInt( LEVEL );
 		exp = bundle.getInt( EXPERIENCE );
+
+		hp_lvl = bundle.getInt(HP_LEVEL);
+		str_lvl = bundle.getInt(STR_LEVEL);
+		tal_lvl = bundle.getIntArray(TAL_LEVEL);
 
 		HTBoost = bundle.getInt(HTBOOST);
 
@@ -404,11 +420,16 @@ public class Hero extends Char {
 				|| (tier == 3 && subClass == HeroSubClass.NONE)
 				|| (tier == 4 && armorAbility == null)) {
 			return 0;
-		} else if (buff(PotionOfDivineInspiration.DivineInspirationTracker.class) != null
-					&& buff(PotionOfDivineInspiration.DivineInspirationTracker.class).isBoosted(tier)) {
-			return 2;
 		} else {
-			return 0;
+			int point = 0;
+			if (buff(PotionOfDivineInspiration.DivineInspirationTracker.class) != null
+					&& buff(PotionOfDivineInspiration.DivineInspirationTracker.class).isBoosted(tier)) {
+				point += 2;
+			} else {
+				point += tal_lvl[tier-1];
+			}
+
+			return point;
 		}
 	}
 	
@@ -2039,8 +2060,7 @@ public class Hero extends Char {
 				if (buff(ElixirOfMight.HTBoost.class) != null){
 					buff(ElixirOfMight.HTBoost.class).onLevelUp();
 				}
-				
-				updateHT( true );
+
 				attackSkill++;
 				defenseSkill++;
 
@@ -2068,6 +2088,10 @@ public class Hero extends Char {
 					StatusPane.talentBlink = 10f;
 					WndHero.lastIdx = 1;
 				}
+
+				Game.runOnRenderThread(() -> {
+					GameScene.show(new WndLevelUp());
+				});
 			}
 			
 			Item.updateQuickslot();
@@ -2081,7 +2105,7 @@ public class Hero extends Char {
 	}
 	
 	public static int maxExp( int lvl ){
-		return 5 + lvl * 5;
+		return 4 + lvl * 4;
 	}
 	
 	public boolean isStarving() {

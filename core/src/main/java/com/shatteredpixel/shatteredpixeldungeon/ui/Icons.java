@@ -137,7 +137,9 @@ public enum Icons {
 	LUMINE,
 	CUBE_CODE,
 	PURIGRO,
-	ARCNOR;
+	ARCNOR,
+
+	CHUD_LEVEL;
 
 	public Image get() {
 		return get( this );
@@ -434,6 +436,10 @@ public enum Icons {
 				break;
 			case CUBE_CODE:
 				icon.frame( icon.texture.uvRectBySize( 160, 96, 27, 30 ) );
+				icon.scale.set(PixelScene.align(0.49f));
+				break;
+			case CHUD_LEVEL:
+				icon.frame( icon.texture.uvRectBySize( 0, 128, 64, 80 ) );
 				icon.scale.set(PixelScene.align(0.49f));
 				break;
 
