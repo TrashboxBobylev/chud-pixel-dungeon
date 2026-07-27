@@ -86,8 +86,9 @@ public class Regeneration extends Buff {
 					delay /= SaltCube.healthRegenMultiplier();
 				}
 
-				partialRegen += 1f / delay;
-				partialRegen *= Math.pow(1.1f, stacks);
+				float heal = 1f / delay;
+				heal *= Math.pow(1.1f, stacks);
+				partialRegen += heal;
 
 				while (partialRegen >= 1) {
 					target.HP += (int)partialRegen;
