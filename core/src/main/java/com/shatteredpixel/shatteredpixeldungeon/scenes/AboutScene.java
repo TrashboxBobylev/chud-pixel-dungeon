@@ -28,9 +28,9 @@ import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ExitButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
-import com.shatteredpixel.shatteredpixeldungeon.ui.TitleBackground;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ScrollPane;
+import com.shatteredpixel.shatteredpixeldungeon.ui.TitleBackground;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
 import com.watabou.input.PointerEvent;
 import com.watabou.noosa.Camera;
@@ -69,6 +69,15 @@ public class AboutScene extends PixelScene {
 
 		//*** Shattered Pixel Dungeon Credits ***
 
+		CreditsBlock tb = new CreditsBlock(true, 0xd40000,
+				"Chud Pixel Dungeon",
+				Icons.CHUD_LEVEL.get(),
+				"Developed by: _Trashbox Bobylev_\nThe bastard child of Shutter and Polished PDs\nBased on ShatteredPD's open source",
+				"github.com/TrashboxBobylev",
+				"https://github.com/TrashboxBobylev");
+		tb.setRect((w - fullWidth)/2f, insets.top + 10, 120, 0);
+		content.add(tb);
+
 		CreditsBlock shpx = new CreditsBlock(true, Window.SHPX_COLOR,
 				"Shattered Pixel Dungeon",
 				Icons.SHPX.get(),
@@ -76,11 +85,12 @@ public class AboutScene extends PixelScene {
 				"ShatteredPixel.com",
 				"https://ShatteredPixel.com");
 		if (landscape()){
-			shpx.setRect((w - fullWidth)/2f - 6, insets.top + 10, 120, 0);
+			shpx.setRect((w - fullWidth)/2f - 6, tb.bottom() + 12, 120, 0);
 		} else {
-			shpx.setRect((w - fullWidth)/2f, insets.top + 6, 120, 0);
+			shpx.setRect((w - fullWidth)/2f, tb.bottom() + 12, 120, 0);
 		}
 		content.add(shpx);
+		addLine(shpx.top() - 8, content);
 
 		CreditsBlock alex = new CreditsBlock(false, Window.SHPX_COLOR,
 				"Splash Art & Design:",
