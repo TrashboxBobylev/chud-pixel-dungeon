@@ -306,6 +306,7 @@ public class Hero extends Char {
 	private static final String HP_LEVEL	= "hp_lvl";
 	private static final String STR_LEVEL	= "str_lvl";
 	private static final String TAL_LEVEL	= "tal_lvl";
+	private static final String RNG_LEVEL	= "rng_lvl";
 	private static final String EXPERIENCE	= "exp";
 	private static final String HTBOOST     = "htboost";
 	
@@ -328,6 +329,7 @@ public class Hero extends Char {
 		bundle.put( HP_LEVEL, hp_lvl );
 		bundle.put( STR_LEVEL, str_lvl );
 		bundle.put( TAL_LEVEL, tal_lvl );
+		bundle.put( RNG_LEVEL, rng_lvl );
 		bundle.put( EXPERIENCE, exp );
 		
 		bundle.put( HTBOOST, HTBoost );
@@ -344,6 +346,7 @@ public class Hero extends Char {
 		hp_lvl = bundle.getInt(HP_LEVEL);
 		str_lvl = bundle.getInt(STR_LEVEL);
 		tal_lvl = bundle.getIntArray(TAL_LEVEL);
+		rng_lvl = bundle.getInt(RNG_LEVEL);
 
 		HTBoost = bundle.getInt(HTBOOST);
 
